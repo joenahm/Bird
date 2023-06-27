@@ -1,4 +1,0 @@
-repository "Bird@uuliinuul@cloud.cn"
-  path "/"
-    br "/main"
-    co "/main"
