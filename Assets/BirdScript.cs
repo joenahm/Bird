@@ -9,6 +9,8 @@ public class BirdScript : MonoBehaviour
     public float bottomEdge;
     private LogicScript logic;
     private bool isAlive = true;
+    public AudioSource deadSound;
+    public AudioSource jumpSound;
 
     void Start()
     {
@@ -18,26 +20,35 @@ public class BirdScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isAlive)
+        if (isAlive)
         {
-            rgbd.velocity = Vector2.up * flatStrength;
-        }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rgbd.velocity = Vector2.up * flatStrength;
+                jumpSound.Play();
+            }
 
-        if (transform.position.y < bottomEdge)
-        {
-            Over();
+            if (transform.position.y < bottomEdge)
+            {
+                Over();
+            }
         }
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
+
     {
-        Over();
+        if (isAlive)
+        {
+            Over();
+        }
     }
 
     private void Over()
     {
         isAlive = false;
+        deadSound.Play();
         logic.GameOver();
     }
 }
